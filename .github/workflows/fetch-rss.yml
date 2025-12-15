@@ -23,9 +23,13 @@ jobs:
       - name: 安装工具
         run: pip install feedparser
       
-      # 步骤4：运行脚本（直接用代码里的密码，小白不用动）
+      # 步骤4：运行脚本（从安全区读密码，小白不用动）
       - name: 运行脚本发邮件
-        run: python rss_fetch.py  # 已经删掉安全区代码，直接运行
+        env:
+          GMAIL_EMAIL: ${{ secrets.GMAIL_EMAIL }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECEIVER_EMAILS: ${{ secrets.RECEIVER_EMAILS }}
+        run: python rss_fetch.py
       
       # 步骤5：保存已发资讯记录（防重复，小白不用动）
       - name: 保存防重复记录
